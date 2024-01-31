@@ -1,4 +1,6 @@
 const path = require("path");
+const MonacoEditorPlugin = require("monaco-editor-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   /**
@@ -18,4 +20,8 @@ module.exports = {
      //引入時可省略後綴
     extensions: [".js", ".jsx", ".json"], 
   },
+  plugins: [
+    new Dotenv(),
+    new MonacoEditorPlugin(),
+  ],
 }
