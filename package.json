@@ -6,9 +6,11 @@
   "author": "Wonder4Studio",
   "main": ".webpack/main",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "cross-env ENV_MODE=runtime electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make",
+    "make:prod": "cross-env ENV_MODE=prod electron-forge make",
+    "make:develop": "cross-env ENV_MODE=develop electron-forge make",
+    "make:citest": "cross-env ENV_MODE=citest electron-forge make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },

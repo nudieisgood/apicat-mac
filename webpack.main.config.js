@@ -22,7 +22,16 @@ module.exports = {
     extensions: [".js", ".jsx", ".json"], 
   },
   plugins: [
-    new Dotenv(),
+    new Dotenv({
+      path: `./.env.${
+        process.env.ENV_MODE === 'develop' ? "develop" 
+          : process.env.ENV_MODE === 'prod' ? 'prod' 
+            : process.env.ENV_MODE === 'runtime' ? 'runtime'
+              : 'citest'
+      }`,
+      //允許加載所有系統變量，包含 cross-env 設置的變量，默認為 false
+      systemvars: true
+    }),
     new MonacoEditorPlugin(),
        ////用webpack插件將圖片複製到 .webpack/main 裡，並利用 dirname 變數來取得圖片路徑
     new CopyWebpackPlugin({
