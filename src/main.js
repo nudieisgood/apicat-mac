@@ -55,7 +55,11 @@ log.transports.file.resolvePath = () =>
 
 //__static 是原專案套件 Vue CLI Plugin Electron Builder 提供的環境變數
 // const iconPath = nativeImage.createFromPath(path.join(__static, "favicon.png"));
-const iconPath = nativeImage.createFromPath(path.join(__dirname, "favicon.png"));
+
+//改成用webpack插件將圖片複製到 .webpack/main 裡，並利用 dirname 變數來取得圖片路徑
+const iconPath = nativeImage.createFromPath(
+  path.join(path.join(__dirname, 'assets', 'favicon.png'))
+);
 
 let tray;
 

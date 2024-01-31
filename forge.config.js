@@ -1,5 +1,11 @@
+const dayjs = require("dayjs");
+const today = dayjs().format("YYYYMMDD");
+
 module.exports = {
   packagerConfig: {
+    appVersion:`${today}`,
+    icon:"./public/favicon.ico",
+    name:"ApiCat",
     asar: true,
   },
   rebuildConfig: {},

@@ -42,6 +42,8 @@ rules.push({
       },
     },
   ],
+  // 解決 BackgroundImage:url() 無法讀圖片問題
+  type: 'javascript/auto'
 },
 );
 

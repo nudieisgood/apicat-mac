@@ -1,6 +1,7 @@
 const path = require("path");
 const MonacoEditorPlugin = require("monaco-editor-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   /**
@@ -23,5 +24,11 @@ module.exports = {
   plugins: [
     new Dotenv(),
     new MonacoEditorPlugin(),
+       ////用webpack插件將圖片複製到 .webpack/main 裡，並利用 dirname 變數來取得圖片路徑
+    new CopyWebpackPlugin({
+        patterns: [
+          { from: path.resolve(__dirname, 'src/assets/img/favicon.png'), to: path.resolve(__dirname, '.webpack/main/assets') },
+        ],
+      })
   ],
 }
