@@ -1,0 +1,134 @@
+html {
+  box-sizing: border-box;
+  font-size: $text-size-m;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI,
+    Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica, Arial,
+    sans-serif;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  font-size: $text-size-m;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI,
+    Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica, Arial,
+    sans-serif;
+}
+
+p,
+span {
+  font-size: $text-size-m;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+
+  // highlight
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+*::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+/* Handle */
+*::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: $secondary-light-grey;
+}
+
+/* Handle on hover */
+*::-webkit-scrollbar-thumb:hover {
+  background: $primary-dark-grey;
+}
+
+*::-webkit-scrollbar-track {
+  margin-right: 5px;
+}
+
+#app {
+  height: 100%;
+  width: 100%;
+  // min-width: 1130px;
+  overflow: hidden;
+  // display: flex;
+  //padding: 10px;
+  user-select: none;
+}
+
+.request-get {
+  color: $request-color-get;
+}
+
+.request-post {
+  color: $request-color-post;
+}
+
+.request-delete {
+  color: $request-color-delete;
+}
+
+.request-patch {
+  color: $request-color-patch;
+}
+
+.icon-hover {
+  img {
+    width: 20px;
+  }
+
+  p {
+    color: $primary-dark-grey;
+  }
+
+  &:hover {
+    color: $primary-blue;
+
+    img {
+      position: relative;
+      left: -80px;
+      filter: drop-shadow($primary-blue 80px 0);
+    }
+
+    p {
+      color: $primary-blue;
+    }
+  }
+}
+
+.icon-actived {
+  color: $primary-blue;
+
+  img {
+    position: relative;
+    left: -80px;
+    filter: drop-shadow($primary-blue 80px 0);
+  }
+
+  p {
+    color: $primary-blue;
+  }
+}
+
+.highlight {
+  position: relative;
+  display: inline-block;
+  color: #ea7500 !important;
+  // background-color: #ffeedd;
+  // padding: 0 5px;
+  padding: 1px 1.5px;
+  margin: 0 1px;
+  border-radius: 2px;
+}
+
+.variable-popover-wrapper:hover {
+  display: block;
+}

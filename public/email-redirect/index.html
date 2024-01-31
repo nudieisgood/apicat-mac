@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" style="margin: 0; height: 100%">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ApiCat</title>
+    <style>
+      .redirect-page {
+        position: relative;
+        height: 100%;
+      }
+
+      .flex-row {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        transform: translate(-50%, -50%);
+
+      }
+
+      .flex-column__image {
+        max-width: 13rem;
+        margin: auto;
+      }
+
+      .flex-column__image img{
+        display: block;
+        width: 100%;
+        object-fit: contain;
+      }
+
+      .flex-column__content {
+        margin-top: 3rem;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body style="height: 100%;">
+    <div class="redirect-page" style="margin: 0">
+      <div class="flex-row">
+        <div class="flex-column">
+          <div class="flex-column__image">
+            <img src="./favicon.png" alt="favicon" />
+          </div>
+        </div>
+        <div class="flex-column">
+          <div class="flex-column__content">
+            <h2>取得ApiCat應用程式</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let urlParams = new URLSearchParams(window.location.search);
+    let urlParamsString = urlParams.toString()
+
+    if (urlParamsString) {
+      window.location.href = `OKMan://join-workspace?${urlParamsString}`
+    }
+  </script>
+</html>

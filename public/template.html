@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      html {
+        height: 100%;
+        font-family: sans-serif;
+        font-size: 16px;
+      }
+
+      body {
+        height: 100%;
+        margin: 0;
+      }
+
+      #app {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .header-container {
+        flex-basis: 5%;
+        display: flex;
+        height: 5.5rem;
+        justify-content: space-between;
+        padding: 0 1.5rem;
+        background-color: #1b1515;
+        box-shadow: 0px 3px 10px 1px #ededed;
+        z-index: 100;
+      }
+
+      .logo {
+        height: 100%;
+      }
+
+      .logo svg {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .title {
+        display: flex;
+        align-items: center;
+        letter-spacing: 0.3125rem;
+        margin-left: 1rem;
+        background: linear-gradient(135deg, #03498e, #45bcdf);
+        background: -webkit-linear-gradient(135deg, #03498e, #45bcdf);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        font-size: 1.2rem;
+      }
+
+      .button {
+        display: flex;
+        align-items: center;
+      }
+
+      .button a {
+        color: #23A8F2;
+        transition: 0.5s;
+      }
+
+      .button button {
+        position: relative;
+        height: 2rem;
+        border: solid 0.125rem #23A8F2;
+        border-radius: 0.3125rem;
+        padding: 0 0.625rem 0 1.5625rem;
+        background-color: transparent;
+        cursor: pointer;
+        transition: 0.5s;
+      }
+
+      .button button:hover {
+        background-color: #23A8F2;
+      }
+
+      .button button:hover a {
+        color: #fff;
+      }
+
+      .button button:hover .play-icon::before {
+        border-left-color: #fff;
+      }
+
+      a {
+        color: #0080FF;
+        text-decoration: none;
+      }
+
+      .play-icon::before {
+        position: absolute;
+        content: '';
+        display: inline-block;
+        width: 0;
+        height: 0;
+        top: 50%;
+        left: 0.625rem;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-left: 8px solid transparent;
+        border-left-color: #23A8F2;
+        transform: translateY(-50%);
+        transition: 0.5s;
+      }
+
+      .body-container {
+        flex-basis: 95%;
+        display: flex;
+        height: calc(95% - 82px);
+      }
+
+      .sidebar {
+        width: 260px;
+        background-color: #F2F2F2;
+        padding: 20px 10px 0px 10px;
+        color: #212121;
+        overflow-y: scroll;
+      }
+
+      .sidebar::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .sidebar::-webkit-scrollbar-thumb {
+        border-radius: 8px;
+        background: #bebebe;
+      }
+
+      .sidebar::-webkit-scrollbar-thumb:hover {
+        background: #949494;
+      }
+
+      .sidebar-title {
+        padding: 0 0 7px 14px;
+        border-bottom: solid 0.125rem #23A8F2;
+        font-size: 1.375rem;
+        font-weight: bold;
+        margin-bottom: 7px;
+      }
+
+      .sidebar-menu {
+        font-size: 0.8rem;
+        padding: 1px 0;
+        color: #808080;
+      }
+
+      .sidebar-folder {
+        padding: 0 10px;
+      }
+
+      .sidebar-folder__title {
+        position: relative;
+        margin-bottom: 12.5px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+      }
+
+      .sidebar-folder__arrow {
+        width: 20px;
+        height: 20px;
+        background-color: transparent;
+        transition: 0.2s;
+      }
+
+      .sidebar-folder__arrow:hover {
+        background-color: #e6e6e6;
+        transition: 0.2s;
+      }
+      
+      .sidebar-folder__arrow::before {
+        position: absolute;
+        content: '';
+        display: inline-block;
+        width: 0;
+        height: 0;
+        top: 50%;
+        left: 6px;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-left: 8px solid transparent;
+        border-right: 0;
+        border-left-color: #b5b5b5;
+        transform: translateY(-50%);
+        transition: 0.2s;
+        z-index: 100;
+      }
+
+      .rotate-arrow::before {
+        transform: translateY(-50%) rotate(90deg);
+        transition: 0.2s;
+      }
+
+      .sidebar-folder__name {
+        padding-left: 5px;
+      }
+
+      .sidebar-folder__name:hover {
+        text-decoration: underline;
+      }
+
+      .sidebar-item {
+        display: flex;
+        padding-left: 10px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        border-bottom: solid 0.125rem #B6B6B6;
+        transition: 0.5s;
+        cursor: pointer;
+      }
+
+      .sidebar-folder .sidebar-menu:last-child .sidebar-item {
+        margin-bottom: 10px;
+      }
+
+      .sidebar-item:hover {
+        color: #333;
+        border-color: #23A8F2;
+      }
+
+      .sidebar-item__method {
+        font-weight: bold;
+        margin-right: 10px;
+        width: 45px;
+      }
+
+      /* .sidebar-item__name {
+        cursor: pointer;
+        transition: 0.5s;
+      } */
+
+      .main {
+        flex: 1;
+        color: #282828;
+        overflow-y: scroll;
+      }
+
+      .main::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .main::-webkit-scrollbar-thumb {
+        border-radius: 8px;
+        background: #bebebe;
+      }
+
+      .main::-webkit-scrollbar-thumb:hover {
+        background: #949494;
+      }
+
+      .main__title {
+        color: #23A8F2;
+        padding: 45px 25px;
+        font-weight: bold;
+        font-size: 36px;
+        border-bottom: 1px solid #BFBFBF;
+      }
+
+      .main__description {
+        font-size: 1rem;
+      }
+
+      .main__container {
+        padding: 45px 25px;
+        border-bottom: 1px solid #BFBFBF;
+      }
+
+      .folder__title {
+        color: #085783;
+        font-size: 30px;
+        font-weight: bold;
+      }
+
+      .folder__description {
+        font-size: 1rem;
+      }
+
+      .item__title {
+        display: flex;
+        align-items: center;
+        font-size: 1rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+      }
+
+      .item__title--method {
+        margin-right: 20px;
+      }
+
+      .item__url {
+        padding: 7px 10px;
+        border: 1px solid #D2D2D2;
+        background-color: #F2F2F2;
+        border-radius: 5px;
+        font-size: 0.8em;
+        letter-spacing: 0.25px;
+        min-height: 1rem;
+        line-height: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .item__description {
+        font-size: 1rem;
+      }
+
+      .item-area {
+        padding: 15px 0;
+      }
+
+      .item-area__title {
+        display: flex;
+        border-bottom: 1px solid #BFBFBF;
+        padding-bottom: 5px;
+        font-size: 0.9rem;
+      }
+
+      .item-area__title--title {
+        font-weight: bold;
+        margin-right: 0.5rem;
+      }
+
+      .item-area__title--note {
+        color: #666666;
+      }
+
+      .item-area__raw-container {
+        position: relative;
+      }
+
+      .item-area__raw {
+        position: relative;
+        padding: 7px 10px;
+        border: 1px solid #e6e6e6;
+        background-color: #f8f8f8;
+        border-radius: 5px;
+        overflow: hidden;
+        margin: 1rem 0 0;
+        box-shadow: 0px 5px 10px 5px #ededed;
+      }
+
+      /* .item-area__raw::before {
+        position: absolute;
+        content: '';
+        display: inline-block;
+        width: 100%;
+        height: 30px;
+        top: 100%;
+        transform: translateY(-100%);
+        left: 0;
+        background: linear-gradient(0, rgba(139, 139, 139, 50%), rgba(250, 250, 250, 50%));
+      } */
+
+      /* .item-area__view-more {
+        position: absolute;
+        bottom: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #7e7e7e;
+        background: #BFBFBF;
+        padding: 10px 25px;
+        border-radius: 20px;
+        cursor: pointer;
+        letter-spacing: 1px;
+        font-size: 0.875rem;
+      } */
+
+      .item-area__info {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        padding-top: 20px;
+        font-size: 0.8rem;
+        line-height: 1.75rem;
+      }
+
+      .item-area__info--key {
+        flex-basis: 20%;
+        font-weight: bold;
+      }
+
+      .item-area__info--value {
+        flex-basis: 80%;
+      }
+
+      .item-area__info--note {
+        flex-basis: 80%;
+        color: #808080;
+      }
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="header-container">
+        <div class="logo">
+          <logo />
+        </div>
+        <div class="button">
+          <button><a :href="`OKMan://id=${jsonfile.id}&workspaceId=${jsonfile.workspaceId}`"><div class="play-icon"></div>Run in APICAT</a></button>
+        </div>
+      </div>
+      <div class="body-container">
+        <div class="sidebar">
+          <div class="sidebar-title">
+            {{ jsonfile.name }}
+          </div>
+          <json-menu :jsonfile="jsonfile.item" :showjsonfile="true"></json-menu>
+        </div>
+        <div class="main">
+          <div class="main__title">
+            <div>{{ jsonfile.name }}</div>
+            <div v-if="jsonfile.description" class="main__description" v-html="jsonfile.description"></div>
+          </div>
+          <div v-for="item in flatJsonFileArray">
+            <div :id="item.id" class="main__container">
+              <div class="main__folder" v-if="Object.prototype.hasOwnProperty.call(item, 'item')">
+                <div class="folder__title">
+                  {{ item.name }}
+                </div>
+                <div v-if="item.description" class="folder__description" v-html="item.description"></div>
+              </div>
+              <div :id="item.id" class="main__item" v-else>
+                <div class="item__title">
+                  <div
+                    class="item__title--method"
+                    :style="{'color':classifyTypeColor(item.request.method)}"
+                  >
+                    {{ classifyTypeText(item.request.method) }}
+                  </div>
+                  <div class="item__title--name">
+                    {{ item.name }}
+                  </div>
+                </div>
+                <div v-if="item.request.url" class="item__url">
+                  {{ item.request.url.raw }}
+                </div>
+                <div v-if="item.request.description" class="item__description" v-html="item.request.description"></div>
+                <div v-if="item.request.auth" class="item-area">
+                  <div class="item-area__title">
+                    <div class="item-area__title--title">AUTHORIZATION</div>
+                    <div class="item-area__title--note">Bearer Token</div>
+                  </div>
+                  <div class="item-area__info" v-for="bearer in item.request.auth.bearer">
+                    <div class="item-area__info--key">{{ bearer.key }}</div>
+                    <div class="item-area__info--value">{{ bearer.value }}</div>
+                  </div>
+                </div>
+                <div v-if="item.request.url && item.request.url.query" class="item-area">
+                  <div class="item-area__title">
+                    <div class="item-area__title--title">PARAMS</div>
+                  </div>
+                  <div class="item-area__info" v-for="query in item.request.url.query">
+                    <div class="item-area__info--key">{{ query.key }}</div>
+                    <div class="item-area__info--value">{{ query.value }}</div>
+                    <div class="item-area__info--note">{{ query.description }}</div>
+                  </div>
+                </div>
+                <div v-if="item.request.header && item.request.header.length" class="item-area">
+                  <div class="item-area__title">
+                    <div class="item-area__title--title">HEADERS</div>
+                  </div>
+                  <div class="item-area__info" v-for="header in item.request.header">
+                    <div class="item-area__info--key">{{ header.key }}</div>
+                    <div class="item-area__info--value">{{ header.value }}</div>
+                  </div>
+                </div>
+                <div v-if="item.request.body" class="item-area">
+                  <div class="item-area__title">
+                    <div class="item-area__title--title">BODY</div>
+                    <div class="item-area__title--note">{{ item.request.body.mode }}</div>
+                  </div>
+                  <div class="item-area__raw-container" v-if="item.request.body.mode === 'raw'">
+                    <pre class="item-area__raw" v-text="JSON.parse(JSON.stringify(item.request.body.raw, undefined, 2))">
+                    </pre>
+                    <!-- <div class="item-area__view-more">
+                      View More
+                    </div> -->
+                  </div>
+                  <div v-if="item.request.body.mode === 'urlencoded'">
+                    <div class="item-area__info" v-for="body in item.request.body.urlencoded">
+                      <div class="item-area__info--key">{{ body.key }}</div>
+                      <div class="item-area__info--value">{{ body.value }}</div>
+                      <div class="item-area__info--note">{{ body.description }}</div>
+                    </div>
+                  </div>
+                  <div v-if="item.request.body.mode === 'formdata'">
+                    <div class="item-area__info" v-for="body in item.request.body.formdata">
+                      <div class="item-area__info--key">{{ body.key }}</div>
+                      <div class="item-area__info--value">{{ Object.prototype.hasOwnProperty.call(body, 'value') ? body.value : body.src }}</div>
+                      <div class="item-area__info--note">{{ body.description }}</div>
+                    </div>
+                  </div>
+                  <!-- <div class="item-area__info" v-for="body in bodyData(item.request.body)">
+                    <div class="item-area__info--key">{{ body.key }}</div>
+                    <div class="item-area__info--value">{{ body.value }}</div>
+                    <div class="item-area__info--note">{{ body.description }}</div>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const { createApp, ref, reactive, onMounted } = Vue;
+      const App = {
+        setup () {
+          const jsonfile = reactive({})
+          const flatJsonFileArray = ref([])
+
+          onMounted(() => {
+            if (Object.prototype.hasOwnProperty.call(jsonfile, 'item')) flatJsonFile(jsonfile.item)
+          })
+
+          const flatJsonFile = (jsonfile) => {
+            jsonfile.forEach((item) => {
+              flatJsonFileArray.value.push(item)
+              if (Object.prototype.hasOwnProperty.call(item, 'item')) {
+                flatJsonFile(item.item)
+              }
+            })
+          }
+
+          const classifyTypeColor = (method) => {
+            switch (method) {
+              case 'GET':
+                return '#02C874'
+              case 'POST':
+                return '#FF8000'
+              case 'DELETE':
+                return '#FF2D2D'
+              case 'PATCH':
+                return '#8E8E8E'
+              default:
+                return '#000'
+            }
+          }
+
+          const classifyTypeText = (method) => {
+            switch (method) {
+              case 'GET':
+                return 'GET'
+              case 'POST':
+                return 'POST'
+              case 'DELETE':
+                return 'DEL'
+              case 'PATCH':
+                return 'PATCH'
+              default:
+                return ''
+            }
+          }
+
+          const bodyData = (body) => {
+            switch (body.mode) {
+              case 'raw':
+                return body.raw
+              case 'urlencoded':
+                return body.urlencoded
+              case 'formdata':
+                return body.formdata
+              case 'file':
+                return body.file
+              case 'graphql':
+                return body.graphql
+              default:
+                break;
+            }
+          }
+
+          return {
+            jsonfile,
+            flatJsonFileArray,
+            classifyTypeColor,
+            classifyTypeText,
+            bodyData
+          }
+        }
+      }
+
+      const app =  createApp(App)
+
+      app.component('json-menu', {
+        template: `
+        <div v-if="show">
+          <div v-for="item in file" class="sidebar-menu">
+            <div v-if="Object.prototype.hasOwnProperty.call(item, 'item')" class="sidebar-folder">
+              <div class="sidebar-folder__title">
+                <div class="sidebar-folder__arrow" :class="{'rotate-arrow': showFolderList[item.id]}" @click="clickFolder(item)"></div>
+                <div class="sidebar-folder__name" @click="gotoClickItem(item.id)">{{ item.name }}</div>
+              </div>
+              <json-menu :jsonfile="item.item" :showjsonfile="showFolderList[item.id]"></json-menu>
+            </div>
+            <div v-else class="sidebar-item" @click="gotoClickItem(item.id)">
+              <div
+                class="sidebar-item__method"
+                :style="{'color':classifyTypeColor(item.request.method)}"
+              >
+                {{ classifyTypeText(item.request.method) }}
+              </div>
+              <div class="sidebar-item__name">
+                {{ shortName(item.name) }}
+              </div>
+            </div>
+          </div>
+        </div>
+        `,
+        // <div></div>
+        data () {
+          return {
+            showFolderList: {}
+          }
+        },
+        props: {
+          jsonfile: {
+            type: Array,
+            default: () => []
+          },
+          showjsonfile: {
+            type: Boolean,
+            default: false
+          }
+        },
+        computed: {
+          file() {
+            return this.jsonfile
+          },
+          show() {
+            return this.showjsonfile
+          }
+        },
+        mounted() {
+          const vm = this
+          vm.file.forEach((item) => {
+            if (Object.prototype.hasOwnProperty.call(item, 'item')) {
+              vm.showFolderList[item.id] = false
+            }
+          })
+
+        },
+        methods: {
+          classifyTypeColor(method) {
+            switch (method) {
+              case 'GET':
+                return '#02C874'
+              case 'POST':
+                return '#FF8000'
+              case 'DELETE':
+                return '#FF2D2D'
+              case 'PATCH':
+                return '#8E8E8E'
+              default:
+                return '#000'
+            }
+          },
+          classifyTypeText(method) {
+            switch (method) {
+              case 'GET':
+                return 'GET'
+              case 'POST':
+                return 'POST'
+              case 'DELETE':
+                return 'DEL'
+              case 'PATCH':
+                return 'PATCH'
+              default:
+                return ''
+            }
+          },
+          shortName(name) {
+            if (name.length > 15) {
+              return name.slice(0, 15) + '...'
+            } else {
+              return name
+            }
+          },
+          clickFolder(item) {
+            const vm = this
+            vm.showFolderList[item.id] = !vm.showFolderList[item.id]
+          },
+          gotoClickItem(id) {
+            const vm = this
+            document.getElementById(`${id}`).scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
+          }
+        }
+      })
+
+      app.component('logo', {
+        template: `
+        <svg width="216" height="96" viewBox="0 0 216 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M216 0H0V96H216V0Z" fill="url(#paint0_radial_218_9183)"/>
+          <path d="M87.0168 36.1504C86.6918 36.1504 86.4481 36.3909 86.4481 36.7116V42.6446C84.5795 38.7962 80.6799 36.1504 76.0491 36.1504C69.7122 36.1504 64.5127 41.2816 64.5127 47.5352C64.5127 53.7889 69.7122 58.92 76.0491 58.92C82.386 58.92 87.5855 53.7889 87.5855 47.5352V36.7116C87.5855 36.3909 87.3418 36.1504 87.0168 36.1504ZM76.0491 57.7976C70.3621 57.7976 65.6501 53.2276 65.6501 47.5352C65.6501 41.923 70.2809 37.2728 76.0491 37.2728C81.736 37.2728 86.4481 41.8428 86.4481 47.5352C86.4481 53.1475 81.736 57.7976 76.0491 57.7976Z" fill="#23A8F2"/>
+          <path d="M174.515 36.1504C174.19 36.1504 173.946 36.3909 173.946 36.7116V42.6446C172.077 38.7962 168.178 36.1504 163.547 36.1504C157.21 36.1504 152.01 41.2816 152.01 47.5352C152.01 53.7889 157.21 58.92 163.547 58.92C169.884 58.92 175.083 53.7889 175.083 47.5352V36.7116C175.083 36.3909 174.758 36.1504 174.515 36.1504ZM163.547 57.7976C157.86 57.7976 153.148 53.2276 153.148 47.5352C153.148 41.923 157.779 37.2728 163.547 37.2728C169.315 37.2728 173.865 41.923 173.865 47.5352C173.865 53.1475 169.234 57.7976 163.547 57.7976Z" fill="#23A8F2"/>
+          <path d="M101.478 36.1504C95.1409 36.1504 89.9414 41.2816 89.9414 47.5352V58.3588C89.9414 58.6795 90.1851 58.92 90.5101 58.92C90.8351 58.92 91.0788 58.6795 91.0788 58.3588V52.4259C92.9474 56.2743 96.847 58.92 101.478 58.92C107.815 58.92 113.014 53.7889 113.014 47.5352C113.014 41.2816 107.896 36.1504 101.478 36.1504ZM101.478 57.7976C95.7908 57.7976 91.0788 53.2276 91.0788 47.5352C91.0788 41.923 95.7096 37.2728 101.478 37.2728C107.165 37.2728 111.877 41.8428 111.877 47.5352C111.877 53.1475 107.246 57.7976 101.478 57.7976Z" fill="#23A8F2"/>
+          <path d="M149.33 52.4259C149.086 52.2655 148.68 52.3457 148.517 52.6664C146.73 55.6329 143.561 57.5571 140.068 57.7976V37.2728C143.561 37.4332 146.73 39.3574 148.517 42.404C148.68 42.6446 149.005 42.8049 149.33 42.6446C149.573 42.4842 149.655 42.1635 149.573 41.8428C147.542 38.3151 143.724 36.1504 139.581 36.1504C133.244 36.1504 128.044 41.2816 128.044 47.5352C128.044 53.7889 133.244 58.92 139.581 58.92C143.643 58.92 147.461 56.7553 149.573 53.2276C149.655 52.9871 149.573 52.5862 149.33 52.4259ZM129.182 47.5352C129.182 42.0833 133.569 37.5935 139.012 37.353V57.7976C133.487 57.4769 129.182 52.9871 129.182 47.5352Z" fill="#23A8F2"/>
+          <path d="M188.732 36.4709C182.558 36.4709 177.521 41.4418 177.521 47.5351C177.521 47.8558 177.764 48.0963 178.089 48.0963C178.414 48.0963 178.658 47.8558 178.658 47.5351C178.658 42.2435 182.882 37.9141 188.163 37.5934V58.038C188.163 58.3587 188.407 58.5992 188.732 58.5992C189.057 58.5992 189.301 58.3587 189.301 58.038V37.5934C194.581 37.9141 198.806 42.2435 198.806 47.5351C198.806 47.8558 199.05 48.0963 199.375 48.0963C199.7 48.0963 199.943 47.8558 199.943 47.5351C199.943 41.4418 194.906 36.4709 188.732 36.4709Z" fill="#23A8F2"/>
+          <path d="M125.932 56.7553C124.469 57.6372 122.763 58.0381 121.057 58.1183V36.9521C122.763 37.0323 124.388 37.5134 125.85 38.3151C126.094 38.4755 126.5 38.3953 126.663 38.0746C126.825 37.8341 126.744 37.4332 126.419 37.2728C124.632 36.2306 122.682 35.7495 120.651 35.7495C120.57 35.7495 120.57 35.7495 120.488 35.7495C120.407 35.7495 120.407 35.7495 120.326 35.7495C118.295 35.7495 116.264 36.3107 114.558 37.2728C114.314 37.4332 114.233 37.7539 114.314 38.0746C114.395 38.2349 114.639 38.3151 114.801 38.3151C114.883 38.3151 114.964 38.3151 115.045 38.2349C116.508 37.4332 118.214 36.9521 119.839 36.872V58.0381C118.132 57.9579 116.508 57.4769 114.964 56.6751C114.72 56.5148 114.314 56.595 114.152 56.9157C113.989 57.1562 114.07 57.5571 114.395 57.7174C116.183 58.7597 118.295 59.3209 120.407 59.3209C122.519 59.3209 124.551 58.7597 126.419 57.7174C126.663 57.5571 126.744 57.2364 126.663 56.9157C126.582 56.6751 126.175 56.595 125.932 56.7553Z" fill="#23A8F2"/>
+          <path d="M53.5484 54.5905C52.5735 54.4302 51.9235 54.831 51.4361 55.6328C49.5675 58.1984 47.8614 57.7975 44.5305 60.1226C41.362 62.2873 41.0371 66.9374 40.6309 67.5788C42.9869 66.1357 47.7802 64.5322 52.0048 60.8441C54.1983 58.9199 55.4982 56.9958 56.3106 55.1517C55.9044 55.0716 55.7419 54.9914 53.5484 54.5905Z" fill="white"/>
+          <path d="M56.798 53.7886C57.7729 51.3032 57.8542 48.8178 57.7729 46.4125C57.5292 36.7916 51.8423 33.1035 51.8423 33.1035C52.1672 34.9475 50.0549 37.7537 50.0549 39.3572C50.0549 41.2012 52.086 41.8426 52.9796 43.9271C53.7108 45.6108 54.1983 48.1764 53.5483 50.9023C53.2234 52.1851 53.9546 52.586 55.3357 53.1472C56.1481 53.4679 56.798 53.7886 56.798 53.7886Z" fill="white"/>
+          <path d="M36.6498 27.491C28.3631 27.491 23.5698 32.2213 22.5137 32.4618C22.5137 32.4618 24.7885 33.7446 27.7944 33.7446C31.8565 33.7446 30.7191 32.4618 36.6498 32.4618C42.5805 32.4618 41.4431 33.7446 45.5052 33.7446C48.5112 33.7446 50.7859 32.4618 50.7859 32.4618C49.6486 32.2213 44.8553 27.491 36.6498 27.491Z" fill="white"/>
+          <path d="M19.6704 54.5905C20.6453 54.4302 21.2953 54.831 21.7827 55.6328C23.6513 58.1984 25.3574 57.7975 28.6883 60.1226C31.8568 62.2873 32.1817 66.9374 32.5879 67.5788C30.2319 66.1357 25.4386 64.5322 21.214 60.8441C19.0205 58.9199 17.7206 56.9958 16.9082 55.1517C17.3144 55.0716 17.4769 54.9914 19.6704 54.5905Z" fill="white"/>
+          <path d="M16.4206 53.7881C15.4457 51.3027 15.3644 48.8173 15.4457 46.4121C15.6894 36.7911 21.3764 33.103 21.3764 33.103C21.0514 34.947 23.1637 37.7532 23.1637 39.3567C23.1637 41.2007 21.1326 41.8421 20.239 43.9266C19.5078 45.6103 19.0203 48.1759 19.6703 50.9018C19.9953 52.1846 19.2641 52.5855 17.883 53.1467C17.0705 53.4674 16.4206 53.7881 16.4206 53.7881Z" fill="white"/>
+          <path d="M38.6811 48.0151C38.5186 48.0151 38.4374 48.0953 38.4374 48.2557V48.8971C38.0311 48.416 37.3812 48.0151 36.65 48.0151C35.3501 48.0151 34.3752 49.0574 34.3752 50.26C34.3752 51.5428 35.4314 52.5049 36.65 52.5049C37.9499 52.5049 38.9248 51.4627 38.9248 50.26V48.3358C38.9248 48.1755 38.7623 48.0151 38.6811 48.0151ZM36.65 52.0239C35.6751 52.0239 34.8627 51.2221 34.8627 50.26C34.8627 49.2979 35.6751 48.4962 36.65 48.4962C37.6249 48.4962 38.4374 49.2979 38.4374 50.26C38.4374 51.2221 37.6249 52.0239 36.65 52.0239Z" fill="#23A8F2"/>
+          <defs>
+          <radialGradient id="paint0_radial_218_9183" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(108 48) rotate(90) scale(60 135)">
+          <stop stop-color="white" stop-opacity="0.15"/>
+          <stop offset="1" stop-color="#1B1515" stop-opacity="0"/>
+          </radialGradient>
+          </defs>
+        </svg>
+        `
+      })
+
+      app.mount("#app");
+    </script>
+  </body>
+</html>

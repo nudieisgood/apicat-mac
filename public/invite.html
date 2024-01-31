@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" style="margin: 0; height: 100%">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>邀請信</title>
+    <style>
+      .icon-send {
+        display: block;
+      }
+
+      .icon-send-hover {
+        display: none;
+      }
+
+      .reject:hover {
+        border: solid 2px #e85943 !important;
+        color: #fff !important;
+        background: #e85943;
+      }
+
+      .accept:hover {
+        border: solid 2px #23a8f2;
+        color: #fff !important;
+        background: #23a8f2;
+      }
+
+      .accept a {
+        align-items: center;
+      }
+
+      .accept:hover .icon-send-hover {
+        display: block !important;
+      }
+
+      .accept:hover .icon-send {
+        display: none !important;
+        /* background-image: url('cid:iconSendHover') !important; */
+      }
+    </style>
+  </head>
+  <body
+    class="body"
+    style="
+      margin: 0;
+      height: 100%;
+      background: linear-gradient(to right, #fff, #a5d6f2);
+    "
+  >
+    <div class="header" style="background-color: #1b1515; height: 100px">
+      <img src="cid:logoImg" alt="" />
+    </div>
+    <div
+      class="container"
+      style="
+        background-repeat: no-repeat;
+        background-position: left 100px top 100px;
+        background-size: 100% 100%;
+        height: calc(100vh - 100px);
+        background-image: url('cid:backgroundImg');
+      "
+    >
+      <div class="content" style="padding: 350px 0 0 100px">
+        <div
+          class="title"
+          style="
+            font-weight: bold;
+            font-size: 40px;
+            width: fit-content;
+            padding: 0 0 20px 0;
+            border-bottom: solid 2px #ccc;
+            color: #1b1515;
+          "
+        >
+          USER 已邀請您加入workspace ,
+          <br />
+          請點擊以下連結開通帳號
+        </div>
+        <div
+          class="button-container"
+          style="padding: 100px 0 0 0; display: flex; align-items: center;"
+        >
+          <div
+            class="button reject"
+            style="
+              display: inline-block;
+              padding: 10px;
+              font-weight: bold;
+              font-size: 40px;
+              border-radius: 10px;
+              cursor: pointer;
+              transition: 0.5s;
+              border: solid 2px #999999;
+              color: #999999;
+              margin-right: 50px;
+            "
+          >
+            <a
+              class="link"
+              href="OKMan://join-workspace?declined=true&inviteCode=f789e99f-64fc-4bc4-a509-aba97f139898"
+              style="color: inherit; text-decoration: none"
+            >
+              拒絕邀請
+            </a>
+          </div>
+          <div
+            class="button accept"
+            style="
+              display: inline-block;
+              padding: 10px;
+              font-weight: bold;
+              font-size: 40px;
+              border-radius: 10px;
+              cursor: pointer;
+              transition: 0.5s;
+              border: solid 2px #23a8f2;
+              color: #23a8f2;
+            "
+          >
+            <a
+              class="link"
+              href="OKMan://join-workspace?declined=false&inviteCode=f789e99f-64fc-4bc4-a509-aba97f139898"
+              style="color: inherit; text-decoration: none; display: flex; align-items: center;"
+            >
+              <div
+                class="icon-send"
+                style="
+                width: 20px;
+                height: 20px;
+                margin: auto 15px auto 15px;
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-image: url('cid:iconSend');
+              "
+              ></div>
+              <div
+                class="icon-send-hover"
+                style="
+                width: 20px;
+                height: 20px;
+                margin: auto 15px auto 15px;
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-image: url('cid:iconSendHover');
+              "
+              ></div>
+              確認邀請
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
