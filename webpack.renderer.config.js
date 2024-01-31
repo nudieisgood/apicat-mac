@@ -52,6 +52,7 @@ module.exports = {
   module: {
     rules,
   },
+  mode:'development',
   target: "electron-renderer",
   resolve: {
     alias: {
