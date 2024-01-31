@@ -10,9 +10,12 @@ module.exports = {
   module: {
     rules: require('./webpack.rules'),
   },
+  target: "electron-main",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
-    }
-  },  
+    },
+     //引入時可省略後綴
+    extensions: [".js", ".jsx", ".json"], 
+  },
 }

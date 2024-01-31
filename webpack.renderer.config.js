@@ -21,6 +21,15 @@ rules.push({
     // 将 CSS 转化成 CommonJS 模块
     "css-loader",
     // 将 Sass 编译成 CSS
+    {
+      loader: "sass-loader",
+      options: {
+        additionalData: `
+          @import "@/scss/variable.scss";
+          @import "@/scss/all.scss";
+        `,
+      },
+    },
   ],
 },
 {
@@ -41,6 +50,7 @@ module.exports = {
   module: {
     rules,
   },
+  target: "electron-renderer",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
