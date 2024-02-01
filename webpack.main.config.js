@@ -27,7 +27,8 @@ module.exports = {
         process.env.ENV_MODE === 'develop' ? "develop" 
           : process.env.ENV_MODE === 'prod' ? 'prod' 
             : process.env.ENV_MODE === 'runtime' ? 'runtime'
-              : 'citest'
+              : process.env.ENV_MODE === 'citest' ? 'citest'
+                : 'test'
       }`,
       //允許加載所有系統變量，包含 cross-env 設置的變量，默認為 false
       systemvars: true
