@@ -1,5 +1,5 @@
 {
-  "name": "OKMan",
+  "name": "ApiCat",
   "version": "0.0.1",
   "private": true,
   "description": "ApiCat",
@@ -9,7 +9,7 @@
     "electron:serve": "cross-env ENV_MODE=runtime electron-forge start",
     "electron:build:prod": "cross-env ENV_MODE=prod electron-forge make",
     "electron:build:develop": "cross-env ENV_MODE=develop electron-forge make",
-    "electron:build:citest": "cross-env ENV_MODE=citest electron-forge make",
+    "electron:build:citest": "cross-env ENV_MODEctron-forge make",
     "package": "electron-forge package",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
@@ -48,10 +48,10 @@
     "monaco-editor": "^0.30.1",
     "monaco-editor-webpack-plugin": "^6.0.0",
     "node-loader": "^2.0.0",
-    "style-loader": "^3.0.0",
     "sass": "^1.70.0",
     "sass-loader": "^14.0.0",
     "script-loader": "^0.7.2",
+    "style-loader": "^3.0.0",
     "url-loader": "^4.1.1",
     "vue-loader": "^17.3.1",
     "vuex-persistedstate": "^4.0.0-beta.3",
@@ -60,6 +60,7 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.0.1",
+    "@electron-forge/maker-dmg": "^7.2.0",
     "@electron/remote": "^2.0.11",
     "@he-tree/vue": "^2.5.1",
     "@leyton-techlab/vue-input-highlighter": "0.0.6",
